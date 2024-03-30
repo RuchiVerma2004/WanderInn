@@ -1,5 +1,6 @@
 
 body{
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -59,7 +60,7 @@ form label{
 
 /* Card */
 
-.card{
+.listing-card{
     border: none !important;
     margin-bottom: 2rem;
 }
@@ -105,6 +106,13 @@ form label{
 }
 
 /* Show Image */
+.edit-button{
+    background-color: #fe424d !important;
+    border: none !important;
+    margin-right: 1rem !important; 
+    width: 5rem !important;
+}
+
 .show-img{
     height: 30vh;
 }
@@ -117,3 +125,4 @@ form label{
     padding-left: 0;
     padding-right: 0;
 }
+
