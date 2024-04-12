@@ -125,4 +125,11 @@ form label{
     padding-left: 0;
     padding-right: 0;
 }
+.scale{
+    transition: transform 0.3s ease;
+}
+
+.scale:hover{
+    transform: scale(1.2);
+}
 
