@@ -1,24 +1,24 @@
 const express = require("express");
 const router = express.Router();
 
-// Index route for posts
-router.get("/", (req, res)=>{
-    res.send("GET for posts");
+//Index
+router.get("/", (req, res) => {
+  res.send("GET for users");
 });
 
-// Show route for a specific post
-router.get("/:id", (req, res)=>{
-    res.send("GET for show post");
+//Show
+router.get("/:id", (req, res) => {
+  res.send("GET for post id");
 });
 
-// Create route for posts
-router.post("/", (req, res)=>{
-    res.send("POST for creating a post");
+//POST
+router.post("/", (req, res) => {
+  res.send("POST for posts");
 });
 
-// Delete route for a specific post
-router.delete("/:id", (req, res)=>{
-    res.send("DELETE for deleting a post");
+//DELETE
+router.delete("/:id", (req, res) => {
+  res.send("DELETE for post id");
 });
 
 module.exports = router;

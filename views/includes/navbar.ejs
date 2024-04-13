@@ -1,15 +1,129 @@
+<style>
+  .search-btn {
+    background-color: #fe424d;
+    color: #fff;
+    border-radius: 25px;
+    padding: 0 1rem 0 1rem;
+  }
+  .search-btn:hover {
+    background-color: #fe424d;
+    color: #fff;
+    border-radius: 25px;
+    padding: 0 1rem 0 1rem;
+  }
+  .search-btn i {
+    display: inline;
+    margin-right: 0.5rem;
+  }
+  .search-inp {
+    border-radius: 25px;
+    padding: 0.5rem 3rem 0.5rem 3rem;
+    font-size: 0.9rem;
+  }
+
+  #responsive-registration {
+    display: none;
+  }
+
+  .dropdown button {
+    margin-left: 120px;
+    width: 80px;
+    height: 44px;
+    border-radius: 22px;
+  }
+
+  .dropdown-menu {
+    width: 200px;
+    padding: 20px;
+  }
+
+  @media (max-width: 600px) {
+    .dropdown {
+      display: none;
+    }
+
+    #responsive-registration {
+      display: inline;
+    }
+  }
+</style>
+
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/"><i class="fa-regular fa-compass"></i></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-link " href="/">Home</a>
-          <a class="nav-link" href="/listings">All Listings</a>
-          <a class="nav-link" href="/listings/new">Add new Listing</a>
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/listings"
+      ><i class="fa-regular fa-compass"></i
+    ></a>
+
+    <div class="navbar-nav">
+      <a class="nav-link" id="title" href="/listings"><b>WanderInn</b></a>
+    </div>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNavAltMarkup"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="nav-search nav-hover nav-search-search ms-auto">
+        <form
+          class="d-flex needs-validation"
+          role="search"
+          action="/listings/search"
+          method="get"
+          id="searchBox"
+        >
+          <input
+            class="form-control me-2 search-inp"
+            type="search"
+            placeholder="Search Location   |   Title   |   Price "
+            aria-label="Search"
+            name="q"
+            id="mySearchInput"
+          />
+          <button class="btn search-btn" type="submit" id="search">
+            <i class="fa-solid fa-magnifying-glass"></i>Search
+          </button>
+        </form>
+      </div>
+
+      <div class="navbar-nav ms-auto">
+        <div class="dropdown">
+          <button
+            class="btn btn-success dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <i class="fa-solid fa-circle-user"></i>
+          </button>
+          <ul class="dropdown-menu">
+            <a class="nav-link" href="/signup"><b>Sign up</b></a>
+            <a class="nav-link" href="/login"><b>Log in</b></a>
+             
+            <hr />
+            <a class="nav-link" href="/listings/new"
+              ><strong>Add new home</strong></a
+            >
+            
+            <!-- <a class="nav-link" href="/Others/helpcenter.ejs">Help Center</a> -->
+          </ul>
+        </div>
+
+        <div id="responsive-registration">
+          <a class="nav-link" href="/listings/new"
+            ><strong>Add new home</strong></a
+          >
+          <% if(!currUser) { %>
+          <a class="nav-link" href="/signup"><b>Sign up</b></a>
+          <a class="nav-link" href="/login"><b>Log in</b></a>
+          <% } %> <% if(currUser) { %>
+          <a class="nav-link" href="/logout"><b>Log out</b></a>
+          <% } %>
         </div>
       </div>
     </div>
-  </nav>
+  </div>
+</nav>
