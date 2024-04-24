@@ -1,0 +1,32 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+    <% for(let listing of nearbyListings) { %>
+    <a href="/listings/<%= listing._id %>" class="listing-link">
+      <div class="card col listing-card">
+        <div id="container">
+          <img
+          src="<%= listing.image.url %>"
+          class="card-img-top"
+          alt="listing_image"
+          style="height: 20rem"
+        />
+        </div>
+        
+        <!-- heart -  &#9829; -->
+        <div class="card-img-overlay"><i class="ri-heart-fill"></i></div>
+        <div class="card-body">
+          <p class="card-text">
+  
+            <strong><%= listing.title %></strong><br><span style="color: grey;"><i class="fa-solid fa-location-dot">&nbsp;</i><%= listing.country %></span>
+            <div class="price" style="margin-top: -12px;">&#8377; <%= listing.price.toLocaleString("en-IN") %> night<br></div>
+            <span class="tax-info" style="text-decoration: underline;">&#8377; <%= (listing.price*1.18).toLocaleString("en-IN") %> &nbsp; Includes 18% GST </span>
+            <i class="tax-info2" style="text-decoration: underline;">&#8377; <%= (listing.price*1.8).toLocaleString("en-IN") %> &nbsp; Includes 18% GST </i>
+  
+          </p>
+        </div>
+      </div>
+    </a>
+    <% } %>
+   
+  </div>

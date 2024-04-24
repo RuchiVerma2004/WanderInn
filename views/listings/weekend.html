@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nearby Listings</title>
+</head>
+<body>
+    <div id="listings-container">
+        <!-- Listings will be displayed here -->
+    </div>
+
+    <script>
+        // Fetch nearby listings from backend
+        fetch('/api/listings')
+            .then(response => response.json())
+            .then(data => {
+                // Handle the received data
+                displayListings(data);
+            })
+            .catch(error => {
+                console.error('Error fetching nearby listings:', error);
+            });
+
+        function displayListings(listings) {
+            const listingsContainer = document.getElementById('listings-container');
+            listings.forEach(listing => {
+                const listingElement = document.createElement('div');
+                listingElement.innerHTML = `
+                    <h2>${listing.title}</h2>
+                    <p>${listing.description}</p>
+                    <!-- Add more details as needed -->
+                `;
+                listingsContainer.appendChild(listingElement);
+            });
+        }
+    </script>
+</body>
+</html>
