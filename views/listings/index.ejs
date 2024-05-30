@@ -349,7 +349,7 @@
         </div>
       </div>
     </div>
-
+    
     <div class="tax-toggle">
       <div class="form-check-reverse form-switch">
         <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" style="cursor: pointer;">    
@@ -367,12 +367,68 @@
   </div>
 </div>
 
-<div class="input-group mb-3">
-  <span class="input-group-text" id="max-distance-label">Discover Nearby Gems</span>
-  <input type="number" class="form-control" id="max-distance-input" aria-describedby="max-distance-label" placeholder="Enter max distance in km" >
-  <button class="btn btn-primary" type="button" onclick="updateListings()">Update Listings</button>
-</div>
+<h1>Trending</h1>
 
+<div class="scroll-container">
+  <div class="carousel-primary">
+    <% for(let listing of allListings) { %>
+    <a href="/listings/<%= listing._id %>" class="listing-link">
+      <div class="card col listing-card">
+        <div id="container">
+          <img
+          src="<%= listing.image.url %>"
+          class="card-img-top"
+          alt="listing_image"
+          style="height: 20rem"
+        />
+        </div>
+        
+        <!-- heart -  &#9829; -->
+        <div class="card-img-overlay"><i class="ri-heart-fill"></i></div>
+        <div class="card-body">
+          <p class="card-text">
+  
+            <strong><%= listing.title %></strong><br><span style="color: grey;"><i class="fa-solid fa-location-dot">&nbsp;</i><%= listing.country %></span>
+            <div class="price" style="margin-top: -12px;">&#8377; <%= listing.price.toLocaleString("en-IN") %> night<br></div>
+            <span class="tax-info" style="text-decoration: underline;">&#8377; <%= (listing.price*1.18).toLocaleString("en-IN") %> &nbsp; Includes 18% GST </span>
+            <i class="tax-info2" style="text-decoration: underline;">&#8377; <%= (listing.price*1.8).toLocaleString("en-IN") %> &nbsp; Includes 18% GST </i>
+  
+          </p>
+        </div>
+      </div>
+    </a>
+    <% } %>
+  </div>
+  <div class="carousel-primary carousel-secondary">
+    <% for(let listing of allListings) { %>
+    <a href="/listings/<%= listing._id %>" class="listing-link">
+      <div class="card col listing-card">
+        <div id="container">
+          <img
+          src="<%= listing.image.url %>"
+          class="card-img-top"
+          alt="listing_image"
+          style="height: 20rem"
+        />
+        </div>
+        
+        <!-- heart -  &#9829; -->
+        <div class="card-img-overlay"><i class="ri-heart-fill"></i></div>
+        <div class="card-body">
+          <p class="card-text">
+  
+            <strong><%= listing.title %></strong><br><span style="color: grey;"><i class="fa-solid fa-location-dot">&nbsp;</i><%= listing.country %></span>
+            <div class="price" style="margin-top: -12px;">&#8377; <%= listing.price.toLocaleString("en-IN") %> night<br></div>
+            <span class="tax-info" style="text-decoration: underline;">&#8377; <%= (listing.price*1.18).toLocaleString("en-IN") %> &nbsp; Includes 18% GST </span>
+            <i class="tax-info2" style="text-decoration: underline;">&#8377; <%= (listing.price*1.8).toLocaleString("en-IN") %> &nbsp; Includes 18% GST </i>
+  
+          </p>
+        </div>
+      </div>
+    </a>
+    <% } %>
+  </div>
+</div>
 
 <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
   <% for(let listing of allListings) { %>
@@ -402,7 +458,6 @@
     </div>
   </a>
   <% } %>
- 
 </div>
 
 <script>
@@ -449,90 +504,4 @@
   bars.forEach((bar, index) => {
   bar.style.height = prices[index] + "px";
   });
-</script>
-<script>
-  // document.addEventListener('DOMContentLoaded', function() {
-  //   getLocation();
-  // });
-
-  function getLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(sendLocationToBackend, handleLocationError);
-    } else {
-      alert("Geolocation is not supported by this browser.");
-    }
-  }
-
-  function sendLocationToBackend(position) {
-    const latitude = position.coords.latitude;
-    const longitude = position.coords.longitude;
-    const maxDistanceInput = document.getElementById('max-distance-input');
-    const maxDistance = maxDistanceInput.value ; // Default to 100 km if input is empty
-
-    // Send latitude, longitude, and maxDistance to frontend
-    fetch(`/api/listings?latitude=${latitude}&longitude=${longitude}&maxDistance=${maxDistance}`)
-      .then(response => response.json())
-      .then(data => {
-        // Handle the returned listings, perhaps by displaying them on the frontend
-        console.log(data);
-        updateListingsUI(data);
-      })
-      .catch(error => {
-        // Handle any errors
-        console.error(error);
-      });
-  }
-
-  function handleLocationError(error) {
-    switch(error.code) {
-      case error.PERMISSION_DENIED:
-        alert("User denied the request for Geolocation.");
-        break;
-      case error.POSITION_UNAVAILABLE:
-        alert("Location information is unavailable.");
-        break;
-      case error.TIMEOUT:
-        alert("The request to get user location timed out.");
-        break;
-      case error.UNKNOWN_ERROR:
-        alert("An unknown error occurred.");
-        break;
-    }
-  }
-  function updateListingsUI(listings) {
-  const listingsContainer = document.querySelector('.row.row-cols-lg-3.row-cols-md-2.row-cols-sm-1');
-  listingsContainer.innerHTML = ''; // Clear previous listings
-
-  // Iterate over the listings and create HTML elements for each listing
-  listings.forEach(listing => {
-    const listingCard = document.createElement('div');
-    listingCard.classList.add('card', 'col', 'listing-card');
-
-    // Create the card content
-    listingCard.innerHTML = `
-      <a href="/listings/${listing._id}" class="listing-link">
-        <div id="container">
-          <img src="${listing.image.url}" class="card-img-top" alt="listing_image" style="height: 20rem">
-        </div>
-        <div class="card-body">
-          <p class="card-text">
-            <strong>${listing.title}</strong><br>
-            <span style="color: grey;"><i class="fa-solid fa-location-dot">&nbsp;</i>${listing.country}</span><br>
-            <div class="price" style="margin-top: -12px;">&#8377; ${listing.price.toLocaleString("en-IN")} night<br></div>
-            <span class="tax-info" style="text-decoration: underline;">&#8377; ${(listing.price * 1.18).toLocaleString("en-IN")} &nbsp; Includes 18% GST </span>
-            <i class="tax-info2" style="text-decoration: underline;">&#8377; ${(listing.price * 1.8).toLocaleString("en-IN")} &nbsp; Includes 18% GST </i>
-          </p>
-        </div>
-      </a>
-    `;
-
-    // Append the card to the listings container
-    listingsContainer.appendChild(listingCard);
-  });
-}
-
-  // Function to update listings when the user clicks the button
-  function updateListings() {
-    getLocation(); // Call the getLocation function to fetch updated listings
-  }
 </script>

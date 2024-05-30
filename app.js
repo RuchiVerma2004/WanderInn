@@ -15,8 +15,6 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
-const Listing = require('./models/listing');
-
 
 const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
@@ -101,59 +99,9 @@ app.use((req, res, next) => {
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
-
-
-app.get('/api/listings', async (req, res) => {
-  // Extract latitude, longitude, and maxDistance from the query parameters
-  const { latitude, longitude, maxDistance } = req.query;
-
-  try {
-    // Fetch all listings from the database
-    const allListings = await Listing.find({}).exec();
-
-    // Filter the listings based on distance from the user's coordinates
-    const nearbyListings = allListings.filter(listing => {
-      const distance = calculateDistance(
-        latitude,
-        longitude,
-        listing.geometry.coordinates[1], // Latitude of the listing
-        listing.geometry.coordinates[0]  // Longitude of the listing
-      );
-      return distance <= maxDistance; // Check if the distance is within the specified range
-    });
-
-    // Send the filtered listings to the frontend
-    res.json(nearbyListings);
-
-    // res.render('index.ejs', { listings: nearbyListings });
-    
-   
-  } catch (error) {
-    console.error('Error fetching listings:', error);
-    // res.status(500).render({ error: 'Internal server error' });
-    res.status(500).render('error.ejs', { message: 'Internal server error' });
-  }
+app.get("/cart", (req, res) => {
+  res.render("order/cart.ejs");
 });
-
-// Function to calculate the distance between two sets of coordinates using the Haversine formula
-function calculateDistance(lat1, lon1, lat2, lon2) {
-  const R = 6371; // Earth's radius in kilometers
-  const dLat = deg2rad(lat2 - lat1);
-  const dLon = deg2rad(lon2 - lon1);
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-    Math.sin(dLon / 2) * Math.sin(dLon / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  const distance = R * c; // Distance in kilometers
-  return distance;
-}
-
-// Function to convert degrees to radians
-function deg2rad(deg) {
-  return deg * (Math.PI / 180);
-}
-
 
 app.all("*", (req, res, next) => {
   next(new ExpressError(404, "Page not found!"));

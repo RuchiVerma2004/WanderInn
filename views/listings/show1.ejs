@@ -4,35 +4,37 @@
   const mapToken = "<%= process.env.MAP_TOKEN %>";
 
   const listing = <%- JSON.stringify(listing) %>;
+  // Set the timer duration (in milliseconds)
+  var duration = 5 * 60 * 1000; // 5 minutes
+
+// Start the timer
+var timerInterval = setInterval(function() {
+  duration -= 1000; // Decrease duration by 1 second
+
+  // Calculate minutes and seconds
+  var minutes = Math.floor((duration / (1000 * 60)) % 60);
+  var seconds = Math.floor((duration / 1000) % 60);
+
+  // Add leading zero if less than 10
+  minutes = (minutes < 10) ? "0" + minutes : minutes;
+  seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+  // Display the timer
+  document.getElementById("timer").innerHTML = minutes + ":" + seconds;
+
+  // If the timer reaches 0, stop the timer
+  if (duration <= 0) {
+    clearInterval(timerInterval);
+    document.getElementById("timer").innerHTML = "Time's up!";
+  }
+}, 1000);
 </script>
+
 <div class="row mt-3 show-body" id="show-body">
   <div class="col-8 offset-3">
     <h3 id="lis-tit"><%= listing.title %></h3>
   </div>
-  <div class="timer-container">
-    <svg class="progress-ring" width="120" height="120">
-      <circle
-        class="background-circle"
-        stroke="blue"
-        stroke-width="8"
-        fill="transparent"
-        r="54"
-        cx="60"
-        cy="60"
-      />
-      <circle
-        class="progress-ring__circle"
-        stroke="lightgrey"
-        stroke-width="8"
-        fill="transparent"
-        r="54"
-        cx="60"
-        cy="60"
-      />
-    </svg>
-    <div class="timer">5:00</div>
-  </div>
-  <audio id="alarm-sound" src="alarm.mp3" preload="auto"></audio>
+  <div id="timer" class="text-center timer">5:00</div>
   <div class="card col-6 offset-3 show-card listing-card">
     <img
       src="<%= listing.image.url %>"
@@ -51,15 +53,8 @@
       <p class="card-text">
         <b>Category :</b> <%= listing.category.slice(",").join(", ") %>
       </p>
-      <p class="card-text">
-        <b>Place :&nbsp;&nbsp;</b
-        ><i class="fa-solid fa-location-dot">&nbsp;</i><%= listing.location %>
-      </p>
-      <p class="card-text">
-        <b>Country :&nbsp;&nbsp;</b><i class="fa-solid fa-globe">&nbsp;</i><%=
-        listing.country %>
-      </p>
-      <button class="checkout" id="cart">Add To Cart</button>
+      <p class="card-text"><b>Place :&nbsp;&nbsp;</b><i class="fa-solid fa-location-dot">&nbsp;</i><%= listing.location %></p>
+      <p class="card-text"><b>Country :&nbsp;&nbsp;</b><i class="fa-solid fa-globe">&nbsp;</i><%= listing.country %></p>
     </div>
   </div>
   <br />
@@ -160,9 +155,8 @@
       <div class="card col-5 ms-3 mb-2" id="card-body">
         <div class="card-body">
           <h5 class="card-title mt-2">
-            <i class="fa-solid fa-circle-user fa-lg" style="color: #ff0000"
-              >&nbsp;</i
-            ><%= review.author.username %>
+            <i class="fa-solid fa-circle-user fa-lg" style="color: #ff0000;">&nbsp;</i><%=
+            review.author.username %>
           </h5>
           <p
             class="starability-result card-text"
@@ -530,138 +524,68 @@
   <div class="accordion col-6 mx-auto" id="accordionExample">
     <div class="accordion-item">
       <h2 class="accordion-header">
-        <button
-          class="accordion-button"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#collapseOne"
-          aria-expanded="true"
-          aria-controls="collapseOne"
-        >
-          How do I search for available properties?
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        How do I search for available properties?
         </button>
       </h2>
-      <div
-        id="collapseOne"
-        class="accordion-collapse collapse show"
-        data-bs-parent="#accordionExample"
-      >
+      <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
         <div class="accordion-body">
-          To search for available properties, navigate to the
-          <b>Search bar</b> on the homepage. Enter your desired location, title
-          of a house if you already know , category , budget & any other
-          preferences such as amenities or property type. Click on the search
-          button to see a list of available properties that match your criteria.
+          To search for available properties, navigate to the <b>Search bar</b> on the homepage. Enter your desired location, title of a house if you already know , category , budget & any other preferences such as amenities or property type. Click on the search button to see a list of available properties that match your criteria.
         </div>
       </div>
     </div>
     <div class="accordion-item">
       <h2 class="accordion-header">
-        <button
-          class="accordion-button collapsed"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#collapseTwo"
-          aria-expanded="false"
-          aria-controls="collapseTwo"
-        >
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
           Can I request additional services or amenities?
         </button>
       </h2>
-      <div
-        id="collapseTwo"
-        class="accordion-collapse collapse"
-        data-bs-parent="#accordionExample"
-      >
+      <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
         <div class="accordion-body">
-          <b>Yes</b>, you can request additional services such as housekeeping,
-          airport transfers, grocery delivery, or special requests like extra
-          bedding or baby cribs. Contact the property owner/manager or use our
-          messaging platform to make your requests.
+          <b>Yes</b>, you can request additional services such as housekeeping, airport transfers, grocery delivery, or special requests like extra bedding or baby cribs. Contact the property owner/manager or use our messaging platform to make your requests.
         </div>
       </div>
     </div>
     <div class="accordion-item">
       <h2 class="accordion-header">
-        <button
-          class="accordion-button collapsed"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#collapseThree"
-          aria-expanded="false"
-          aria-controls="collapseThree"
-        >
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
           What safety measures are in place?
         </button>
       </h2>
-      <div
-        id="collapseThree"
-        class="accordion-collapse collapse"
-        data-bs-parent="#accordionExample"
-      >
+      <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
         <div class="accordion-body">
-          Our properties adhere to <b>Safety</b> standards and may include
-          features such as smoke detectors, fire extinguishers, first aid kits,
-          and emergency contact information. We also recommend familiarizing
-          yourself with the property's layout and emergency exits upon check-in.
+          Our properties adhere to <b>Safety</b> standards and may include features such as smoke detectors, fire extinguishers, first aid kits, and emergency contact information. We also recommend familiarizing yourself with the property's layout and emergency exits upon check-in.
         </div>
       </div>
     </div>
     <div class="accordion-item">
       <h2 class="accordion-header">
-        <button
-          class="accordion-button collapsed"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#collapseFour"
-          aria-expanded="false"
-          aria-controls="#collapseFour"
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="#collapseFour"       
         >
-          What payment methods are accepted?
+        What payment methods are accepted?
         </button>
       </h2>
-      <div
-        id="collapseFour"
-        class="accordion-collapse collapse"
-        data-bs-parent="#accordionExample"
-      >
+      <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
         <div class="accordion-body">
-          We accept a variety of payment methods including credit/debit cards
-          (Visa, MasterCard, American Express), PayPal, and bank transfers. You
-          can choose your preferred payment method during the checkout
-          process.<strong>I am Working on payment integration</strong>
+          We accept a variety of payment methods including credit/debit cards (Visa, MasterCard, American Express), PayPal, and bank transfers. You can choose your preferred payment method during the checkout process.<strong>I am Working on payment integration</strong>
         </div>
       </div>
     </div>
     <div class="accordion-item">
       <h2 class="accordion-header">
-        <button
-          class="accordion-button collapsed"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#collapseFive"
-          aria-expanded="false"
-          aria-controls="collapseFive"
-        >
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
           Are pets allowed in the properties?
         </button>
       </h2>
-      <div
-        id="collapseFive"
-        class="accordion-collapse collapse"
-        data-bs-parent="#accordionExample"
-      >
+      <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
         <div class="accordion-body">
-          Some properties may <b>Allow</b> pets while others may have
-          restrictions or additional fees for pets. You can filter your search
-          to find pet-friendly properties or contact the property owner/manager
-          for more information about their pet policy.
+          Some properties may <b>Allow</b> pets while others may have restrictions or additional fees for pets. You can filter your search to find pet-friendly properties or contact the property owner/manager for more information about their pet policy.
         </div>
       </div>
     </div>
-    <br />
+    <br>
   </div>
-  <hr />
+  <hr>
 
   <!-- <div>
     <h4 class="text-center">Booking House</h4>
@@ -672,4 +596,3 @@
 </div>
 
 <script src="/js/map.js"></script>
-<script src="/js/cart.js"></script>
