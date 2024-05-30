@@ -2,6 +2,7 @@ let cartTable = document.getElementById("cartPage");
 let totalamt = document.getElementById("totalamt");
 let placeOrder = document.getElementById("placeOrder");
 let items = JSON.parse(localStorage.getItem("cartItems")) || [];
+// const Listing = require("../models/listing");
 let total = 0;
 
 if (items.length > 0) {
@@ -70,5 +71,6 @@ placeOrder.addEventListener("click", () => {
   alert("Placed Order Successfully");
   localStorage.setItem("cartItems", JSON.stringify([]));
   items = [];
-  window.location = "http://localhost:8080/listings";
+  window.location =  "/listings";
+  // res.redirect("/listings/new.ejs");
 });

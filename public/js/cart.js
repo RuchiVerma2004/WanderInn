@@ -1,3 +1,4 @@
+
 let cartBtn = document.getElementById("cart");
 console.log(cartBtn);
 cartBtn.addEventListener("click", () => {
@@ -21,5 +22,6 @@ cartBtn.addEventListener("click", () => {
   }
   localStorage.setItem("cartItems", JSON.stringify(items));
   alert("Item Added Successfully");
-  window.location = "http://localhost:8080/cart";
+  window.location =  "/listings";
+  // res.redirect("/listings");
 });
